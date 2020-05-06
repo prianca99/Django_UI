@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<html>
+<head>
+<title>Login and Registration Form Design</title>
+    <link rel="stylesheet" href="{% static 'css/tsts.css' %}">
+</head>
+<script src='https://code.jquery.com/jquery-3.4.1.min.js'>
+</script>
+<script>
+    function validate() 
+	{
+        var url = document.getElementById("url").value;
+        var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+		var subnet = document.getElementById("subnet").value;
+        var pattern2 = /^(25[0-4]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-4]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+        var frequency = document.getElementById("frequency").value;
+        var pattern3 = /^-?\d+\.?\d*$/
+        var IS_VALID = true;
+        var error_msg = '';
+        
+        if (!pattern.test(url)) 
+		{
+			document.myForm.url.focus()
+            IS_VALID = false;
+			error_msg += "URL is not valid";
+        }
+        if (!pattern2.test(subnet)) 
+		{
+			document.myForm.subnet.focus()
+            IS_VALID = false;
+			error_msg += "\nSUBNET is not valid";
+        }
+        if (!pattern3.test(frequency)) 
+		{
+			document.myForm.frequency.focus()
+            IS_VALID = false;
+			error_msg += "frequency is not valid";
+        }
+		if (IS_VALID === false) {
+          alert(error_msg);
+        }
+        
+		return IS_VALID;
+    }
+	function refreshPage()
+	{
+    window.location.reload();
+	}
+</script>
+
+<body>
+    <div class="container-fluid">
+        <div class= "ml-5">
+            {% if user.is_authenticated %}
+                OHRID: {{ user.username }}
+            {% else %}
+                <p>Welcome, new user. Please log in.</p>
+            {% endif %}
+        </div>
+        <div class="ml-5">
+		 <h2>
+		  Synthetic Monitoring for the URL.
+         </h2>
+        </div>
+        <div class="ml-5">
+		 <p>
+		  Monitorin for the urls given.
+         </p>
+        </div>
+        <div class="ml-5">
+        <input type="button" class="btn btn-info btn-md outline" value="View my Requests" onClick= "location.href='{% url 'view_all' %}'"/>
+        <br/>
+        <br/>
+        </div>
+    </div>
+    <div class="container-fluid">
+    <div class ="ml-5">
+    <div class="px-2">
+        <div class="py-3">
+        <form action ="/external" method="POST" name= "myForm" class="form-horizontal" onsubmit = "return(validate());">
+            {% csrf_token %}
+            <div class="px-2">
+                <div class="py-2">
+             <label for="url">URL </label>
+                <input  id="url" name="url" type="text" required/>
+            </div>
+        </div>
+            <div class="px-2">
+                <div class="py-2">
+             <label class="control-label " for="subnet">
+               Subnet
+             </label>
+             <input  id="subnet" placeholder ="0.0.0.0" name="subnet" type="text" required/>&nbsp;  &nbsp; / &nbsp;  &nbsp;
+             <select name="cidr" id="cidr">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+            </select>
+        </div>
+            </div>
+             <div class="px-2">
+                <div class="py-2">
+			<label class="control-label " for="date">
+                Date
+             </label>
+             <input  id="date" name="date" type="date" />
+            </div></div>
+             <div class="px-2">
+                <div class="py-2">
+             <label class="control-label " for="date">
+             From <input  id="starttime" name="starttime" type="time"/>  &nbsp;  &nbsp; To   &nbsp; <input id="endtime" name="endtime"type="time"/>
+            </label>
+            </div></div>
+             <div class="px-2">
+                <div class="py-2">
+            <label class="control-label " for="frequency">
+              Frequency
+            </label>
+            <input  id="frequency" name="frequency" type="text" required/>
+            </div></div>
+            <div class="px-2">
+                <div class="py-2">
+            <input type="submit" value="Submit" class="btn btn-md active btn-outline-success" onsubmit= "location.href='{% url 'external' %}'"> &nbsp;  &nbsp;  <input type="button" class="btn btn-md active btn-outline-danger" value="Cancel" onClick="refreshPage()">
+            <br/>
+            <br/>
+                </div></div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+    </body>
+    </html>
+{% endblock %}

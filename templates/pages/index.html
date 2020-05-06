@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+{% if error %}
+{{ error }}
+<br />
+<br />
+
+{% endif %}
+
+<html>
+<head>
+<title>Login and Registration Form Design</title>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	
+</head>
+<body>
+	<div class="login-page">
+	<div class="form">
+		<form  method = "POST" class="register-form">
+		{% csrf_token %}
+		<input type="text" placeholder="username" name="username"/>
+		<input type="password" placeholder="password" name= "password1"/>
+		<input type="password" placeholder="confirm password" name= "password2"/>
+		<input type="text" placeholder="email id"/>
+		<button>Create</button>
+		<p class="message">Already Registered?<a href="#">Login</a>
+		</p>
+		</form>
+		<form action="/login" method = "POST" class="login-form">
+		{% csrf_token %}
+		<input type="text" placeholder="username" name="username"/>
+		<input type="password" placeholder="password" name="password"/>
+		<button>login</button>
+		<p class="message">Not Registered?<a href="#">Register</a>
+		</p>
+		</form>
+		</p>
+	</div>
+	</div>
+</body>
+</html>
+{% endblock %}
